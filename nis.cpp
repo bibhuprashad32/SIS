@@ -16,15 +16,11 @@ int main()
             case 3:
                 exit(0);
             case 1:
-                {cout << "enter student name: ";
-                string name;
-                int age;
-                cin >> name;
-                cout << "enter student age: ";
-                cin >> age;
-                student* s1 = new student(name, age);
-                studentList.push_back(s1);
-                break;}
+                {
+                    student* s1 = new student();
+                    studentList.push_back(s1);
+                    break;
+                }
             
             case 2:
                {
@@ -46,7 +42,7 @@ int main()
                         if(!loginChk)
                         {
                             
-                            cout << "1. getDetails\n2. Login\n3. Forget Password\n4. Main menu\n5. Terminate Program\n6. Change password\n7. Switch User\n";
+                            cout << "1. Get User Details\n2. Login\n3. Forgot Password\n4. Switch User\n5. Main menu\n6. Terminate Program\n";
                             cout << "Enter your choice: ";
                             cin >> choice2;
                             switch(choice2)
@@ -66,21 +62,8 @@ int main()
                                     user->forgetPwd();
                                     break;
                                 }
+                                
                                 case 4:
-                                {
-                                    flag = false;
-                                    break;
-                                }
-                                case 5:
-                                {
-                                    exit(0);
-                                }
-                                case 6:
-                                {
-                                    user->changePwd();
-                                    break;
-                                }
-                                case 7:
                                 {
                                     cout << "Enter your Roll No.: ";
                                     int tempRoll;
@@ -96,6 +79,15 @@ int main()
                                     }
                                     break;
                                 }
+                                case 5:
+                                {
+                                    flag = false;
+                                    break;
+                                }
+                                case 6:
+                                {
+                                    exit(0);
+                                }
                                 default:
                                 {
                                     cout << "invalid input";
@@ -107,7 +99,7 @@ int main()
                         else
                         {
                             cout << "Logged in as " << user->getName() << endl;
-                            cout << "1. modifyDetails\n2. Change Password\n3. Forget Password\n4. Logout\n5. Terminate Program\n";
+                            cout << "1. Get User Details\n2. Modify Details\n3. Change Password\n4. Logout\n5. Terminate Program\n";
                             cout << "Enter your choice: ";
                             cin >> choice2;
 
@@ -115,17 +107,17 @@ int main()
                             {
                                 case 1:
                                 {
-                                    user->modifyDetails();
+                                    user->getDetails();
                                     break;
                                 }
                                 case 2:
                                 {
-                                    user->changePwd();
+                                    user->modifyDetails();
                                     break;
                                 }
                                 case 3:
                                 {
-                                    user->forgetPwd();
+                                    user->changePwd();
                                     break;
                                 }
                                 case 4:
@@ -135,6 +127,7 @@ int main()
                                 }
                                 case 5:
                                 {
+                                    user->logout();
                                     exit(0);
                                 }
                                 default:
@@ -153,7 +146,7 @@ int main()
                 }
             
             default:
-                return 0;
+                cout << "invalid input, enter a valid choice...\n";
         }
     }
 
