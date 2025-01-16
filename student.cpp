@@ -11,6 +11,7 @@ class student
         bool isPasswordSet = false;
         bool isLogin = false;
         int age;
+        int otp;
     
     public:
         
@@ -78,6 +79,35 @@ class student
         else
         {
             cout << "please login to change password" << endl;
+        }
+    }
+
+    void forgetPwd()
+    {
+        if(this->isLogin)
+        {
+            cout << "you are already logged in, to change password try change Password" << endl;
+        }
+        else if(!this->isPasswordSet)
+        {
+            cout << "No password found in database" << endl;
+            setPassword();
+            cout << "kindly login using the password" << endl;
+            this->isPasswordSet = true;
+        }
+        else
+        {
+            cout << "enter otp: ";
+            int temp;
+            cin >> temp;
+            if(temp == otp)
+            {
+                setPassword();
+            }
+            else
+            {
+                cout << "oops wrong otp" << endl;
+            }
         }
     }
 

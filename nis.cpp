@@ -32,7 +32,7 @@ int main()
                 int roll;
                 cin >> roll;
                 if(roll >= studentList.size())
-                    cout << "user not found\n";
+                    cout << "user not exist";
                 else
                 {
                     student* user = studentList[roll];
@@ -46,7 +46,7 @@ int main()
                         if(!loginChk)
                         {
                             
-                            cout << "1. getDetails\n2. Login\n3. Main menu\n4. Terminate Program\n5. Change password\n6. Switch User\n";
+                            cout << "1. getDetails\n2. Login\n3. Forget Password\n4. Main menu\n5. Terminate Program\n6. Change password\n7. Switch User\n";
                             cout << "Enter your choice: ";
                             cin >> choice2;
                             switch(choice2)
@@ -63,19 +63,24 @@ int main()
                                 }
                                 case 3:
                                 {
-                                    flag = false;
+                                    user->forgetPwd();
                                     break;
                                 }
                                 case 4:
                                 {
-                                    exit(0);
+                                    flag = false;
+                                    break;
                                 }
                                 case 5:
+                                {
+                                    exit(0);
+                                }
+                                case 6:
                                 {
                                     user->changePwd();
                                     break;
                                 }
-                                case 6:
+                                case 7:
                                 {
                                     cout << "Enter your Roll No.: ";
                                     int tempRoll;
@@ -102,7 +107,7 @@ int main()
                         else
                         {
                             cout << "Logged in as " << user->getName() << endl;
-                            cout << "1. modifyDetails\n2. Change Password\n3. Logout\n4. Terminate Program\n";
+                            cout << "1. modifyDetails\n2. Change Password\n3. Forget Password\n4. Logout\n5. Terminate Program\n";
                             cout << "Enter your choice: ";
                             cin >> choice2;
 
@@ -120,10 +125,15 @@ int main()
                                 }
                                 case 3:
                                 {
-                                    user->logout();
+                                    user->forgetPwd();
                                     break;
                                 }
                                 case 4:
+                                {
+                                    user->logout();
+                                    break;
+                                }
+                                case 5:
                                 {
                                     exit(0);
                                 }
