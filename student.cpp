@@ -1,4 +1,5 @@
 #include <bits/stdc++.h>
+#include "picosha2.h"
 using namespace std;
 
 class student
@@ -36,6 +37,12 @@ class student
         return randomString;
     }
     
+    string hashPassword(const std::string& password) 
+    {
+        return picosha2::hash256_hex_string(password);
+    }
+
+
     public:
         
     
@@ -51,7 +58,26 @@ class student
         setAadhar();
         setBlood();
         setRoll();
+        getToken();
     }
+
+    bool validatePwd(const string& rawPwd)
+    {
+        string hashedPwd;
+        hashedPwd = hashPassword(rawPwd);
+        if(hashedPwd == pwd) return true;
+        else return false;
+    }
+
+    bool validateToken(const string& rawToken)
+    {
+        string hashedToken;
+        hashedToken = hashPassword(rawToken);
+        if(hashedToken == token) return true;
+        else return false;
+    }
+
+    
 
     void setEmail()
     {
@@ -293,18 +319,21 @@ class student
         string password;
         cout << "enter new password: ";
         cin >> password;
-        this->pwd = password;
+        this->pwd = hashPassword(password);
         cout << "Password set Successfully" << endl;
+        this->isPasswordSet = true;
         this->getToken();
     }
 
     void getToken()
     {
-        this->token = fetchToken();
-        cout << "Your updated token is " << this->token << endl;
+        string rawToken = fetchToken();
+        
         cout << "\t====== WARNING! ======"<<endl;
+        cout << "Your updated token is ===>>\t" << rawToken << "\t<<===" << endl;
         cout << "Keep this safe, it can be used for password recovery\n";
         cout << "Can be used for once" << endl << endl;
+        this->token = hashPassword(rawToken);
     }
 
     void login(int roll)
@@ -312,16 +341,16 @@ class student
         if(!this->isPasswordSet)
         {
             cout << "No password found in database" << endl;
-            setPassword();
-            cout << "kindly login using the password" << endl;
-            this->isPasswordSet = true;
+            // setPassword();
+            cout << "kindly use forgot password using the token provided at the time of registration" << endl;
+            // this->isPasswordSet = true;
         }
         else
         {
             cout << "enter password: ";
             string password;
             cin >> password;
-            if(password == pwd)
+            if(validatePwd(password))
             {
                 this->isLogin = true;
                 cout << "login success" << endl;
@@ -353,19 +382,19 @@ class student
         {
             cout << "you are already logged in, to change password try change Password" << endl;
         }
-        else if(!this->isPasswordSet)
-        {
-            cout << "No password found in database" << endl;
-            setPassword();
-            cout << "kindly login using the password" << endl;
-            this->isPasswordSet = true;
-        }
+        // else if(!this->isPasswordSet)
+        // {
+        //     cout << "No password found in database" << endl;
+        //     setPassword();
+        //     cout << "kindly login using the password" << endl;
+        //     this->isPasswordSet = true;
+        // }
         else
         {
             cout << "enter token: ";
             string temp;
             cin >> temp;
-            if(temp == token)
+            if(validateToken(temp))
             {
                 setPassword();
             }
