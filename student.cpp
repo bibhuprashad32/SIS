@@ -16,11 +16,25 @@ class student
         string pwd;
         bool isPasswordSet = false;
         bool isLogin = false;
-        int otp = 1234;
+        // int otp = 1234;
+        string token;
         int age;
         string email;
         string aadhar;
 
+    string fetchToken() 
+    {
+        const string characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        string randomString;
+        srand(time(0));
+
+        for (size_t i = 0; i < 32; ++i) 
+        {
+            randomString += characters[rand() % characters.size()];
+        }
+
+        return randomString;
+    }
     
     public:
         
@@ -281,7 +295,16 @@ class student
         cin >> password;
         this->pwd = password;
         cout << "Password set Successfully" << endl;
-        cout << "\nYour otp for password recovery is " << this->otp << endl << endl;
+        this->getToken();
+    }
+
+    void getToken()
+    {
+        this->token = fetchToken();
+        cout << "Your updated token is " << this->token << endl;
+        cout << "\t====== WARNING! ======"<<endl;
+        cout << "Keep this safe, it can be used for password recovery\n";
+        cout << "Can be used for once" << endl << endl;
     }
 
     void login(int roll)
@@ -339,16 +362,16 @@ class student
         }
         else
         {
-            cout << "enter otp: ";
-            int temp;
+            cout << "enter token: ";
+            string temp;
             cin >> temp;
-            if(temp == otp)
+            if(temp == token)
             {
                 setPassword();
             }
             else
             {
-                cout << "oops wrong otp" << endl;
+                cout << "oops wrong token" << endl;
             }
         }
     }
@@ -388,7 +411,7 @@ class student
     cout << "Blood Group: " << this->blood << endl;
     cout << "Age: " << this->age << endl;
     cout << "Email: " << this->email << endl;
-    if(this->isLogin) cout << "OTP: " << this->otp << endl;
+    if(this->isLogin) cout << "TOKEN: " << this->token << endl;
     cout << "============================" << endl;
 }
 
