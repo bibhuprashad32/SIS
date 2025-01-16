@@ -42,42 +42,27 @@ class student
         return picosha2::hash256_hex_string(password);
     }
 
+    void setPassword()
+    {
+        string password;
+        cout << "enter new password: ";
+        cin >> password;
+        this->pwd = hashPassword(password);
+        cout << "Password set Successfully" << endl;
+        this->isPasswordSet = true;
+        this->getToken();
+    }
 
-    public:
+    void getToken()
+    {
+        string rawToken = fetchToken();
         
-    
-    student()
-    {
-        setName();
-        setAge();
-        setContact();
-        setEmail();
-        setAddress();
-        setParents();
-        setDOB();
-        setAadhar();
-        setBlood();
-        setRoll();
-        getToken();
+        cout << "\t====== WARNING! ======"<<endl;
+        cout << "Your updated token is ===>>\t" << rawToken << "\t<<===" << endl;
+        cout << "Keep this safe, it can be used for password recovery\n";
+        cout << "Can be used for once" << endl << endl;
+        this->token = hashPassword(rawToken);
     }
-
-    bool validatePwd(const string& rawPwd)
-    {
-        string hashedPwd;
-        hashedPwd = hashPassword(rawPwd);
-        if(hashedPwd == pwd) return true;
-        else return false;
-    }
-
-    bool validateToken(const string& rawToken)
-    {
-        string hashedToken;
-        hashedToken = hashPassword(rawToken);
-        if(hashedToken == token) return true;
-        else return false;
-    }
-
-    
 
     void setEmail()
     {
@@ -96,16 +81,6 @@ class student
             }
         } while (!isValid);
         this->email = emailAddress;
-    }
-
-    bool isDigitOnly(string str)
-    {
-        for (char c : str)
-        {
-            if (!isdigit(c))
-                return false;
-        }
-        return true;
     }
 
     void setDOB()
@@ -290,15 +265,6 @@ class student
         this->address = tn;
     }
 
-    string takeInput()
-    {
-        string s;
-        // cin.ignore();
-        if (cin.peek() == '\n') cin.ignore();
-        getline(cin, s);
-        return s;
-    }
-
     void setName()
     {
         string tn; //tempname
@@ -314,27 +280,68 @@ class student
         this->name = tn;
     }
 
-    void setPassword()
+    public:
+        
+    
+    student()
     {
-        string password;
-        cout << "enter new password: ";
-        cin >> password;
-        this->pwd = hashPassword(password);
-        cout << "Password set Successfully" << endl;
-        this->isPasswordSet = true;
-        this->getToken();
+        setName();
+        setAge();
+        setContact();
+        setEmail();
+        setAddress();
+        setParents();
+        setDOB();
+        setAadhar();
+        setBlood();
+        setRoll();
+        getToken();
     }
 
-    void getToken()
+    
+
+    bool validatePwd(const string& rawPwd)
     {
-        string rawToken = fetchToken();
-        
-        cout << "\t====== WARNING! ======"<<endl;
-        cout << "Your updated token is ===>>\t" << rawToken << "\t<<===" << endl;
-        cout << "Keep this safe, it can be used for password recovery\n";
-        cout << "Can be used for once" << endl << endl;
-        this->token = hashPassword(rawToken);
+        string hashedPwd;
+        hashedPwd = hashPassword(rawPwd);
+        if(hashedPwd == pwd) return true;
+        else return false;
     }
+
+    bool validateToken(const string& rawToken)
+    {
+        string hashedToken;
+        hashedToken = hashPassword(rawToken);
+        if(hashedToken == token) return true;
+        else return false;
+    }
+
+    
+
+    bool isDigitOnly(string str)
+    {
+        for (char c : str)
+        {
+            if (!isdigit(c))
+                return false;
+        }
+        return true;
+    }
+
+    
+
+    string takeInput()
+    {
+        string s;
+        // cin.ignore();
+        if (cin.peek() == '\n') cin.ignore();
+        getline(cin, s);
+        return s;
+    }
+
+    
+
+    
 
     void login(int roll)
     {
@@ -417,32 +424,32 @@ class student
     }
 
     void getDetails()
-{
-    cout << "============================" << endl;
-    cout << "Name: " << this->name << endl;
-    cout << "Roll No: " << this->roll << endl;
-    cout << "Father's Name: " << this->father << endl;
-    cout << "Mother's Name: " << this->mother << endl;
-    if(this->isLogin) cout << "Date of Birth: " << this->DOB << endl;
-    if(this->isLogin) cout << "Aadhar No.: " << this->aadhar << endl;
-    else 
     {
-        string maskedAadhar = "********" + this->aadhar.substr(this->aadhar.length() - 4);
-        cout << "Aadhar No.: " << maskedAadhar << endl;
+        cout << "============================" << endl;
+        cout << "Name: " << this->name << endl;
+        cout << "Roll No: " << this->roll << endl;
+        cout << "Father's Name: " << this->father << endl;
+        cout << "Mother's Name: " << this->mother << endl;
+        if(this->isLogin) cout << "Date of Birth: " << this->DOB << endl;
+        if(this->isLogin) cout << "Aadhar No.: " << this->aadhar << endl;
+        else 
+        {
+            string maskedAadhar = "********" + this->aadhar.substr(this->aadhar.length() - 4);
+            cout << "Aadhar No.: " << maskedAadhar << endl;
+        }
+        if(this->isLogin) cout << "Contact: " << this->contact << endl;
+        else 
+        {
+            string maskedContact = "******" + this->contact.substr(this->contact.length() - 4);
+            cout << "Contact: " << maskedContact << endl;
+        }
+        cout << "Address: " << this->address << endl;
+        cout << "Blood Group: " << this->blood << endl;
+        cout << "Age: " << this->age << endl;
+        cout << "Email: " << this->email << endl;
+        // if(this->isLogin) cout << "TOKEN: " << this->token << endl;
+        cout << "============================" << endl;
     }
-    if(this->isLogin) cout << "Contact: " << this->contact << endl;
-    else 
-    {
-        string maskedContact = "******" + this->contact.substr(this->contact.length() - 4);
-        cout << "Contact: " << maskedContact << endl;
-    }
-    cout << "Address: " << this->address << endl;
-    cout << "Blood Group: " << this->blood << endl;
-    cout << "Age: " << this->age << endl;
-    cout << "Email: " << this->email << endl;
-    if(this->isLogin) cout << "TOKEN: " << this->token << endl;
-    cout << "============================" << endl;
-}
 
 
     int getRoll()
@@ -450,10 +457,10 @@ class student
         return this->currRoll;
     }
 
-    void help()
-    {
-        cout << "available commands are:  setPassword(), Login(roll),logout(), changePwd(), forgetPwd(), getDetails()" << endl;
-    }
+    // void help()
+    // {
+    //     cout << "available commands are:  setPassword(), Login(roll),logout(), changePwd(), forgetPwd(), getDetails()" << endl;
+    // }
 
     int loginStatus()
     {
@@ -468,7 +475,57 @@ class student
             // cin >> this->name;
             // cout << "Enter age: " << endl;
             // cin >> age;
-            cout << "feature not available for now";
+            // cout << "feature not available for now";
+            int choice;
+            
+            bool flag = true;
+            while(flag)
+            {
+                cout << "1. Change Name\n2. Change Age\n3. Change Contact\n4. Change Email\n5. Change Address\n6. Change Father Name\n7. Change Mother Name\n8. Change DOB\n9. Change Aadhar\n10. Change Blood Type\n11. Previous Menu\n";
+                cout << "Enter your choice: ";
+                cin >> choice;
+                switch (choice)
+                {
+                    case 1:
+                        setName();
+                        break;
+                    case 2:
+                        setAge();
+                        break;
+                    case 3:
+                        setContact();
+                        break;
+                    case 4:
+                        setEmail();
+                        break;
+                    case 5:
+                        setAddress();
+                        break;
+                    case 6:
+                        setFather();
+                        break;
+                    case 7:
+                        setMother();
+                        break;
+                    case 8:
+                        setDOB();
+                        break;
+                    case 9:
+                        setAadhar();
+                        break;
+                    case 10:
+                        setBlood();
+                        break;
+                    case 11:
+                        flag = false;
+                        break;
+                    default:
+                        cout << "Invalid choice!\n";
+                        break;
+                }
+            }
+
+
         }
         else
         {
