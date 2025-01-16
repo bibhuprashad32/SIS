@@ -73,6 +73,7 @@ int main()
                                 case 5:
                                 {
                                     user->changePwd();
+                                    break;
                                 }
                                 case 6:
                                 {
