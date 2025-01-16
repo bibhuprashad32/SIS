@@ -32,7 +32,7 @@ int main()
                 int roll;
                 cin >> roll;
                 if(roll >= studentList.size())
-                    cout << "user not exist";
+                    cout << "user not exist\n";
                 else
                 {
                     student* user = studentList[roll];
