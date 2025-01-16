@@ -27,7 +27,6 @@ class student
     
     student()
     {
-        
         setName();
         setAge();
         setContact();
@@ -59,26 +58,42 @@ class student
         this->email = emailAddress;
     }
 
+    bool isDigitOnly(string str)
+    {
+        for (char c : str)
+        {
+            if (!isdigit(c))
+                return false;
+        }
+        return true;
+    }
+
     void setDOB()
     {
+        string dayStr, monthStr, yearStr;
         int day, month, year;
         do
         {
             cout << "Enter your birth year (1800-2200): ";
-            cin >> year;
+            cin >> yearStr;
+            if (isDigitOnly(yearStr)) { year = stoi(yearStr);}
+            else year = -1;
         } while (year < 1800 || year > 2200);
 
         do
         {
             cout << "Enter a month (1-12): ";
-            cin >> month;
+            cin >> monthStr;
+            if (isDigitOnly(monthStr)) { month = stoi(monthStr);}
+            else month = -1;
         } while (month < 1 || month > 12);
 
-        cout << "Enter day: ";
         do
         {
             cout << "Enter a day (1-31): ";
-            cin >> day;
+            cin >> dayStr;
+            if (isDigitOnly(dayStr)) { day = stoi(dayStr);}
+            else day = -1;
         } while (day < 1 || day > 31);
 
         this->DOB = to_string(day) + "/" + to_string(month) + "/" + to_string(year);
@@ -106,13 +121,18 @@ class student
 
     void setAge()
     {
+        string taStr;
         int ta; //tempAge
         cout << "Enter age: ";
-        cin >> ta;
+        cin >> taStr;
+        if (isDigitOnly(taStr)) { ta = stoi(taStr);}
+        else ta = -1;
         while(ta <= 0 || ta > 150)
         {
-            cout << "age must be +ve and not more than 150\n Enter Age: ";
-            cin >> ta;
+            cout << "age must be +ve digit and not more than 150\n Enter Age: ";
+            cin >> taStr;
+            if (isDigitOnly(taStr)) { ta = stoi(taStr);}
+            else ta = -1;
         }
         this->age = ta;
     }
@@ -130,7 +150,7 @@ class student
             if (tc.length() != 12)
             {
                 flag = true;
-                cout << "please enter a 12 digit number: ";
+                cout << "please enter a 12 digit aadhar number: ";
                 continue;
             }
             for (char c : tc)
@@ -138,7 +158,7 @@ class student
                 if (!isdigit(c))
                 {
                     flag = true;
-                    cout << "contact number must contain digits only.\n";
+                    cout << "aadhar number must contain digits only.\n";
                     break;
                 }
             }
@@ -185,30 +205,34 @@ class student
 
     void setFather()
     {
-        string tn; //tempName
+        string tf; //tempName
         cout << "Enter your father's full name: ";
-        tn = this->takeInput();
-        while(tn.length() <= 2)
+        tf = this->takeInput();
+        while(tf.length() <= 2)
         {
             cout << "Father's name can't have less than 2 characters.\n";
             cout << "Please enter full name: ";
-            getline(cin, tn);
+            tf = "";
+            tf = this->takeInput();
+            // getline(cin, tn); // replace all with tn = this->takeInput();
         }
-        this->father = tn;
+        this->father = tf;
     }
 
     void setMother()
     {
-        string tn; //tempname
+        string tm; //tempname
         cout << "Enter your mother's full name: ";
-        tn = this->takeInput();
-        while(tn.length() <= 2)
+        tm = this->takeInput();
+        while(tm.length() <= 2)
         {
             cout << "mother's name can't have less than 2 characters.\n";
             cout << "Please enter full name: ";
-            getline(cin, tn);
+            tm = "";
+            tm = this->takeInput();
+            // getline(cin, tn);
         }
-        this->mother = tn;
+        this->mother = tm;
     }
 
 
@@ -220,7 +244,8 @@ class student
         while(tn.length() <= 2)
         {
             cout << "Enter a valid address: \n";
-            getline(cin, tn);
+            tn = this->takeInput();
+            // getline(cin, tn);
         }
         this->address = tn;
     }
@@ -228,7 +253,8 @@ class student
     string takeInput()
     {
         string s;
-        cin.ignore();
+        // cin.ignore();
+        if (cin.peek() == '\n') cin.ignore();
         getline(cin, s);
         return s;
     }
@@ -242,7 +268,8 @@ class student
         {
             cout << "Your name can't have less than 2 characters.\n";
             cout << "Please Enter your full name: ";
-            getline(cin, tn);
+            tn = this->takeInput();
+            // getline(cin, tn);
         }
         this->name = tn;
     }
@@ -385,10 +412,11 @@ class student
     {
         if(this->isLogin)
         {
-            cout << "Enter New Name: " << endl;
-            cin >> this->name;
-            cout << "Enter age: " << endl;
-            cin >> age;
+            // cout << "Enter New Name: " << endl;
+            // cin >> this->name;
+            // cout << "Enter age: " << endl;
+            // cin >> age;
+            cout << "feature not available for now";
         }
         else
         {
